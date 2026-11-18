@@ -1,0 +1,4 @@
+repository "UniSideGame/UniSideGame@15669763277501@cloud"
+  path "/"
+    br "/main"
+    co "/main"

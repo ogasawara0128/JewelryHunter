@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class GimmickBlock : MonoBehaviour
 {
-    public float length = 0.0f;     // 自動落下検知距離
+    public float length = 0.0f;     // 自動落下検知距離 制限範囲
     public bool isDelete = false;   // 落下後に削除するフラグ
     GameObject deadObj;             // 死亡当たり
     bool isFell = false;            // 落下フラグ
     float fadeTime = 0.5f;          // フェードアウト時間
 
+    Rigidbody2D rbody;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         // Rigidbody2Dの物理挙動を停止
-        Rigidbody2D rbody = GetComponent<Rigidbody2D>();
-        rbody.bodyType = RigidbodyType2D.Static;
-        deadObj = transform.Find("DeadObject").gameObject;  //死亡あたり取得
+        rbody = GetComponent<Rigidbody2D>();
+        rbody.bodyType = RigidbodyType2D.Static; //開始時はstatic(プレイヤー近づくとDynamic)
+        deadObj = transform.Find("DeadObject").gameObject;  //死亡あたり取得 
         deadObj.SetActive(false);                           //死亡あたりを非表示
     }
 
@@ -28,7 +30,6 @@ public class GimmickBlock : MonoBehaviour
             float d = Vector2.Distance(transform.position, player.transform.position);
             if (length >= d)
             {
-                Rigidbody2D rbody = GetComponent<Rigidbody2D>();
                 if (rbody.bodyType == RigidbodyType2D.Static)
                 {
                     // Rigidbody2Dの物理挙動を開始
